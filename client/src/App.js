@@ -3,12 +3,8 @@ import './App.css';
 
 class App extends React.Component{
   state = {
-<<<<<<< Updated upstream
-    flowers: [],
-=======
     flowers : [],
     sightings : [],
->>>>>>> Stashed changes
     sighting: {
       name: '',
       person: '',
