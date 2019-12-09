@@ -21,14 +21,21 @@ componentDidMount()
 getFlowers = _ =>{
   fetch('http://localhost:4000/flowers')
   .then(response => response.json())
-  .then(response => this.setState({flowers : response}))
+  .then(response => this.setState({flowers : response.json }))
   .catch(err => console.error(err))
 }
 
 addFlowers = _ =>{
   const { sighting } = this.state
   fetch(`http://localhost:4000/flowers/add?name=${sighting.name}&person=${sighting.person}&location=${sighting.location}&sighted=${sighting.sighted}`)
-  //.then(response => response.json())
+  .then(this.getFlowers)
+  .catch(err => console.error(err))
+}
+
+//fixing
+updateFlowers = _ =>{
+  const { sighting } = this.state
+  fetch(`http://localhost:4000/flowers/add?name=${sighting.name}&person=${sighting.person}&location=${sighting.location}&sighted=${sighting.sighted}`)
   .then(this.getFlowers)
   .catch(err => console.error(err))
 }
