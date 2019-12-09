@@ -22,38 +22,19 @@ app.get('/', (req, res) =>{
     res.send("hello ")
 });
 
-var data = [];
 //Allow user to select a flower from the list of flowers
 //then display top 10 recent sightings for the selected flower
 app.get('/flowers', (req, res)=> {
-  db.each(`SELECT comname as name FROM flowers`, (err, row) => {
+  db.all(`SELECT comname as name FROM flowers`, [], (err, row) => {
     if (err) {
-    console.error(err.message);
-    res.status(404).json({ errors });
+      res.send(err);
     return;
     }
-  //   else {
-  //     console.log(row.name)
-  //     return res.json({ data: row })
-  //   }
-  // })
-    data.push(row.name);
-    }).then(res.send(data))
+    else {
+      return res.json(row)
+    }
+  })
 })
-
-// app.get('/sightings/add', (req, res) => {
-//   const {name, person, location, sighted} = req.query;
-//   const INSERT_SIGHTINGS = `INSERT INTO sightings(name, person, location, sighted) VALUES(
-//     '${name}', '${person}', '${location}', '${sighted}')`;
-//   db.run(INSERT_SIGHTINGS, function(err, results) {
-//     if (err) {
-//       return res.send(err)
-//     }
-//     else {
-//       return res.send('successfully added sighting')
-//     }
-//   })
-// })
 
 app.get('/flowers/add', (req, res) => {
   const {name, person, location, sighted} = req.query;
