@@ -23,7 +23,7 @@ componentDidMount()
 getFlowers = _ =>{
   fetch('http://localhost:4000/flowers')
   .then(response => response.json())
-  .then(response => this.setState({flowers : response.json }))
+  .then(response => this.setState({flowers : response }))
   .catch(err => console.error(err))
 }
 
