@@ -3,8 +3,19 @@ import './App.css';
 
 class App extends React.Component{
   state = {
+<<<<<<< Updated upstream
     flowers: [],
+=======
+    flowers : [],
+    sightings : [],
+>>>>>>> Stashed changes
     sighting: {
+      name: '',
+      person: '',
+      location: '',
+      sighted: ''
+    },
+    updateInfo: {
       name: '',
       person: '',
       location: '',
@@ -32,10 +43,10 @@ addFlowers = _ =>{
   .catch(err => console.error(err))
 }
 
-//fixing
 updateFlowers = _ =>{
   const { sighting } = this.state
   fetch(`http://localhost:4000/flowers/add?name=${sighting.name}&person=${sighting.person}&location=${sighting.location}&sighted=${sighting.sighted}`)
+  .then(response => response.json())
   .then(this.getFlowers)
   .catch(err => console.error(err))
 }

@@ -61,8 +61,9 @@ app.get('/flowers/add', (req, res) => {
 })
 
 app.get('/flowers/update', (req, res) => {
-  const {genus, species, comname} = req.query;
-  const UPDATE_FLOWERS = `UPDATE flowers SET genus = '${genus}', species = '${species}' WHERE comname = '${comname}`;
+  const {name, person, location, sighted} = req.query;
+  const UPDATE_FLOWERS = `UPDATE sightings SET name = '${name}', person = '${person}',
+    location = '${location}', sighted = '${sighted}'`;
   db.run(UPDATE_FLOWERS, function(err, results) {
     if (err) {
       return res.send(err)
