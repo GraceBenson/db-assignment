@@ -4,7 +4,8 @@ import './App.css';
 
 class App extends React.Component{
   state = {
-    flowers: []
+    flowers : [],
+    sightings : []
   }
 
 
@@ -20,15 +21,24 @@ getFlowers = _ =>{
   .catch(err => console.error(err))
 }
 
+/*onclickHandler(selectedFlower)
+{
+  getSightings =_ =>{
+    fetch('/flowers/sightings?comname=${selectedFlower}')
+  }  
+}*/
+
 renderFlower(flower)
 {
- return(<div><button>{flower}</button></div>)
+  return(<div><button>{flower.name}</button></div>)
+
+ //return(<div><button onclick = {onclickHandler(flower.name)}>{flower.name}</button></div>)
 }
 
 
 render()
 {
-
+  console.log(this.state.flowers)
   return(
     <div className = "App">
       {this.state.flowers.map(flower=>this.renderFlower(flower))}
