@@ -3,7 +3,9 @@ import './App.css';
 
 class App extends React.Component{
   state = {
-    flowers: [],
+    flowers : [],
+    sightings : [],
+    
     sighting: {
       name: '',
       person: '',
@@ -25,6 +27,14 @@ getFlowers = _ =>{
   .catch(err => console.error(err))
 }
 
+/*onclickHandler(selectedFlower)
+{
+  getSightings =_ =>{
+    fetch('/flowers/sightings?comname=${selectedFlower}')
+  }  
+}*/
+
+ //return(<div><button onclick = {onclickHandler(flower.name)}>{flower.name}</button></div>)
 addFlowers = _ =>{
   const { sighting } = this.state
   fetch(`http://localhost:4000/flowers/add?name=${sighting.name}&person=${sighting.person}&location=${sighting.location}&sighted=${sighting.sighted}`)
@@ -47,6 +57,7 @@ renderFlower(flower) {
 
 render()
 {
+  console.log(this.state.flowers)
   const { sighting } = this.state
   return(
     <div className = "App">
