@@ -1,0 +1,29 @@
+{
+  "name": "db-assignment",
+  "version": "1.0.0",
+  "description": "db assignment",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GraceBenson/db-assignment.git"
+  },
+  "author": "sneha patel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GraceBenson/db-assignment/issues"
+  },
+  "homepage": "https://github.com/GraceBenson/db-assignment#readme",
+  "dependencies": {
+    "connect": "^3.7.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2",
+    "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {},
+  "keywords": []
+}
