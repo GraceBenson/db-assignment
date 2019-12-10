@@ -145,12 +145,12 @@ app.get('/flowers/update', (req, res) => {
   db.run(UPDATE_FLOWERS, function(err, results) {
     if (err) {
       //console.log(name, ' ', person, ' ', location, ' ', sighted, newperson, ' ', newlocation, ' ', newsighted )
-      console.log(err)
+      //console.log(err)
       return res.send(err)
       
     }
     else {
-      console.log(name, ' ', person, ' ', location, ' ', sighted, newperson, ' ', newlocation, ' ', newsighted )
+      //console.log(name, ' ', person, ' ', location, ' ', sighted, newperson, ' ', newlocation, ' ', newsighted )
       return res.send('successfull updated sightings')
 
      
