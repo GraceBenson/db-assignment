@@ -1,5 +1,5 @@
 import React from 'react';
-import { Label, Form, Button, Input, Table, Divider, Container } from 'semantic-ui-react'
+import { Card, Form, Button, Input, Table, Divider, Container } from 'semantic-ui-react'
 import flowerpics from './flowerpics'
 import './App.css';
 
@@ -61,21 +61,6 @@ getFlowerpic(flower) {
   return
 }
 
-// renderFlower(flower) {
-//   return(<button circular as='a' onClick={(e) => this.onclickHandler(e)} image><img src={flowerpics
-//     .filter(pic =>{
-//       return pic.name===flower.name
-//     }).map(pic => {
-//       return pic.img
-//   })} /> {flower.name}</button>)}
-
-
-
-renderFlower(flower) {
-  
-   return(<div><button value = {flower.name} onClick={(e) => this.onclickHandler(e)} >{flower.name}</button></div>)
- }
-
   onclickHandler(event)
   {
    var selectedFlower = event.target.value;
@@ -100,19 +85,30 @@ renderFlower(flower) {
 
 
 
+renderFlower(flower) {
+  return(<Button className="ui image circular label" value={flower.name} onClick={(e) => this.onclickHandler(e)}><img src={flowerpics
+    .filter(pic =>{
+      return pic.name===flower.name
+    }).map(pic => {
+      return pic.img
+  })} />
+    {flower.name}</Button>)
+}
 
 getSighting(sighting)
 {
   var test = `name=${sighting.NAME}&person=${sighting.PERSON}&location=${sighting.LOCATION}&sighted=${sighting.SIGHTED}`
 return(
-  <div>
-  <button id = {test} onClick={(e)=>this.onclickHandlerUpdate(e)}>update</button>
-    <p>Flower name: {sighting.NAME}</p>
-    <p>Person: {sighting.PERSON}</p>
-    <p>Location: {sighting.LOCATION}</p>
-    <p>Sighted on: {sighting.SIGHTED}</p>   
-    <p>--------------------------------- </p>
-  </div>
+  <Card color="grey">
+    <Card.Content header><b>Sighted in {sighting.LOCATION}</b></Card.Content>
+    <Card.Content>
+      <p>By {sighting.PERSON}</p>
+    </Card.Content>
+    <Card.Content extra>
+      On {sighting.SIGHTED}
+    </Card.Content>
+    <button id = {test} onClick={(e)=>this.onclickHandlerUpdate(e)}>update</button>
+  </Card>
 
   )
 }
@@ -121,13 +117,18 @@ renderSighting()
 {
   if(this.state.flowerClicked === true)
   {
-  return(<div>  <img src={flowerpics
+  return(
+  <div>
+    <img width="20%" src={flowerpics
     .filter(pic =>{
       return pic.name===this.state.selectedFlower
     }).map(pic => {
       return pic.img
-  })} />
-  {this.state.sightings.map(sighting=>this.getSighting(sighting))}</div>)
+  })} /><h3>{this.state.selectedFlower}</h3>
+    <Card.Group centered itemsPerRow={4}>
+      {this.state.sightings.map(sighting=>this.getSighting(sighting))}
+    </Card.Group>
+  </div>)
   }
 }
 
@@ -143,8 +144,8 @@ render()
       </Container>
       <Divider />
       <Container>
-        <h3>Flower Information</h3>
         {this.renderSighting()}
+        <h3>Select a flower to view infromation</h3>
       </Container>
       <Table celled>
         <Table.Row>
