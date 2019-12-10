@@ -7,6 +7,7 @@ class App extends React.Component{
   state = {
     flowers : [],
     sightings : [],
+    selectedFlower: null,
     
     sighting: {
       name: '',
@@ -60,22 +61,16 @@ getFlowerpic(flower) {
 
   onclickHandler(event)
   {
-    var selectedFlower = event.target.value;
+   var selectedFlower = event.target.value;
     console.log(selectedFlower)
       fetch(`http://localhost:4000/sightings?comname=${selectedFlower}`).then(response => response.json())
       .then(response => this.setState({sightings : response})).catch(err => console.error(err))
 
+      this.setState({selectedFlower: selectedFlower})
+
       this.state.flowerClicked = true;
     
   }
-
-
-
-
-// renderFlower(flower) {
-//  // return(<div><button>{flower.name}</button></div>)
-//   return(<div><button value = {flower.name} onClick={(e) => this.onclickHandler(e)} >{flower.name}</button></div>)
-// }
 
 renderFlower(flower) {
   return(<Button className="ui image circular label" value={flower.name} onClick={(e) => this.onclickHandler(e)}><img src={flowerpics
@@ -91,6 +86,7 @@ getSighting(sighting)
 {
 return(
   <div>
+  
     <p>Flower name: {sighting.NAME}</p>
     <p>Person: {sighting.PERSON}</p>
     <p>Location: {sighting.LOCATION}</p>
@@ -105,7 +101,13 @@ renderSighting()
 {
   if(this.state.flowerClicked === true)
   {
-  return(<div>{this.state.sightings.map(sighting=>this.getSighting(sighting))}</div>)
+  return(<div>  <img src={flowerpics
+    .filter(pic =>{
+      return pic.name===this.state.selectedFlower
+    }).map(pic => {
+      return pic.img
+  })} />
+  {this.state.sightings.map(sighting=>this.getSighting(sighting))}</div>)
   }
 }
 
