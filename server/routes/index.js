@@ -25,7 +25,7 @@ app.get('/', (req, res) =>{
 //Allow user to select a flower from the list of flowers
 //then display top 10 recent sightings for the selected flower
 app.get('/flowers', (req, res)=> {
-  db.all(`SELECT * FROM sightings`, [], (err, row) => {
+  db.all(`SELECT comname as name FROM flowers`, [], (err, row) => {
     if (err) {
       return res.send(err);
     }
@@ -48,6 +48,22 @@ app.get('/flowers', (req, res)=> {
 // })
 
 // Add a new flower to flowers
+//get top ten sightings for a flower
+app.get('/sightings', (req, res) =>
+{
+  const {comname} = req.query;
+  db.all('SELECT * FROM sightings WHERE name = ? LIMIT 10', [comname], (err, rows) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    else{
+    //console.log(rows)
+      return res.json(rows);
+    }
+  });
+})
+
+
 app.get('/flowers/add', (req, res) => {
   const {name, person, location, sighted} = req.query;
   const INSERT_FLOWERS = `INSERT INTO flowers(comname) VALUES('${name}')`;

@@ -7,6 +7,7 @@ class App extends React.Component{
   state = {
     flowers : [],
     sightings : [],
+    
     sighting: {
       name: '',
       person: '',
@@ -18,7 +19,9 @@ class App extends React.Component{
       person: '',
       location: '',
       sighted: ''
-    }
+    },
+
+    flowerClicked: false
   }
 
 
@@ -34,6 +37,8 @@ getFlowers = _ =>{
   .catch(err => console.error(err))
 }
 
+
+ //return(<div><button onclick = {onclickHandler(flower.name)}>{flower.name}</button></div>)
 addFlowers = _ =>{
   const { sighting } = this.state
   fetch(`http://localhost:4000/flowers/add?name=${sighting.name}&person=${sighting.person}&location=${sighting.location}&sighted=${sighting.sighted}`)
@@ -53,19 +58,60 @@ getFlowerpic(flower) {
   return
 }
 
-renderFlower(flower) {
-  return(<Label circular as='a' image><img src={flowerpics
-    .filter(pic =>{
-      return pic.name===flower.name
-    }).map(pic => {
-      return pic.img
-  })} />
-    {flower.name}</Label>)
+// renderFlower(flower) {
+//   return(<Label circular as='a' onClick={(e) => this.onclickHandler(e)} image><img src={flowerpics
+//     .filter(pic =>{
+//       return pic.name===flower.name
+//     }).map(pic => {
+//       return pic.img
+//   })} />
+//     {flower.name}</Label>)}
+
+  onclickHandler(event)
+  {
+    var selectedFlower = event.target.value;
+    console.log(selectedFlower)
+      fetch(`http://localhost:4000/sightings?comname=${selectedFlower}`).then(response => response.json())
+      .then(response => this.setState({sightings : response})).catch(err => console.error(err))
+
+      this.state.flowerClicked = true;
+    
+  }
+
+
+
+
+// renderFlower(flower) {
+//  // return(<div><button>{flower.name}</button></div>)
+//   return(<div><button value = {flower.name} onClick={(e) => this.onclickHandler(e)} >{flower.name}</button></div>)
+// }
+
+getSighting(sighting)
+{
+return(
+  <div>
+    <p>Flower name: {sighting.NAME}</p>
+    <p>Person: {sighting.PERSON}</p>
+    <p>Location: {sighting.LOCATION}</p>
+    <p>Sighted on: {sighting.SIGHTED}</p>   
+    <p>--------------------------------- </p>
+  </div>
+
+  )
+}
+
+renderSighting()
+{
+  if(this.state.flowerClicked === true)
+  {
+  return(<div>{this.state.sightings.map(sighting=>this.getSighting(sighting))}</div>)
+  }
 }
 
 
 render()
 {
+  //console.log(this.state.flowers)
   const { sighting } = this.state
   return(
     <div className = "App">
@@ -75,6 +121,7 @@ render()
       <Divider />
       <Container>
         <h3>Flower Information</h3>
+        {this.renderSighting()}
       </Container>
       <Table celled>
         <Table.Row>
