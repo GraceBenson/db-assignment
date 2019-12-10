@@ -63,9 +63,22 @@ app.get('/sightings', (req, res) =>
   });
 })
 
+app.get('/getSightings', (req, res) =>
+{
+  const {comname} = req.query;
+  db.all('SELECT * FROM sightings', [], (err, rows) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    else{
+    //console.log(rows)
+      return res.json(rows);
+    }
+  });
+})
 
 app.get('/flowers/add', (req, res) => {
-  const {name, person, location, sighted} = req.query;
+  const {name} = req.query;
   const INSERT_FLOWERS = `INSERT INTO flowers(comname) VALUES('${name}')`;
   db.run(INSERT_FLOWERS, function(err, results) {
     if (err) {
@@ -78,7 +91,7 @@ app.get('/flowers/add', (req, res) => {
 })
 
 // Add new sighting to sightings
-app.get('/flowers/add', (req, res) => {
+app.get('/flowers/addSighting', (req, res) => {
   const {name, person, location, sighted} = req.query;
   const INSERT_SIGHTINGS = `INSERT INTO sightings(name, person, location, sighted) VALUES(
     '${name}', '${person}', '${location}', '${sighted}')`;

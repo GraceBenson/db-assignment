@@ -45,6 +45,9 @@ addFlowers = _ =>{
   fetch(`http://localhost:4000/flowers/add?name=${sighting.name}&person=${sighting.person}&location=${sighting.location}&sighted=${sighting.sighted}`)
   .then(this.getFlowers)
   .catch(err => console.error(err))
+  fetch(`http://localhost:4000/flowers/addSighting?name=${sighting.name}&person=${sighting.person}&location=${sighting.location}&sighted=${sighting.sighted}`)
+  .then(this.getFlowers)
+  .catch(err => console.error(err))
 }
 
 updateFlowers = _ =>{
@@ -53,6 +56,13 @@ updateFlowers = _ =>{
   .then(response => response.json())
   .then(this.getFlowers)
   .catch(err => console.error(err))
+}
+
+deleteSighting(sighting){
+  fetch(`http://localhost:4000/flowers/delete?name=${sighting.name}&person=${sighting.person}&location=${sighting.location}&sighted=${sighting.sighted}`)
+  .catch(err => console.error(err))
+  fetch(`http://localhost:4000/sightings?comname=${sighting.name}`).then(response => response.json())
+  .then(response => this.setState({sightings : response})).catch(err => console.error(err))
 }
 
 getFlowerpic(flower) {
@@ -82,6 +92,7 @@ renderFlower(flower) {
     {flower.name}</Button>)
 }
 
+
 getSighting(sighting)
 {
 return(
@@ -89,9 +100,10 @@ return(
     <Card.Content header><b>Sighted in {sighting.LOCATION}</b></Card.Content>
     <Card.Content>
       <p>By {sighting.PERSON}</p>
+      <p>On {sighting.SIGHTED}</p>
     </Card.Content>
     <Card.Content extra>
-      On {sighting.SIGHTED}
+      <Button size="mini" onClick={()=>this.deleteSighting(sighting)}>Remove</Button>
     </Card.Content>
   </Card>
   )
