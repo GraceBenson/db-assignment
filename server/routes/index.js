@@ -77,26 +77,6 @@ app.get('/flowers/add', (req, res) => {
   })
 })
 
-// Create trigger for insert on flowers
-// app.get('/flowers', (req, res) => {
-//   const {name, person, location, sighted} = req.query;
-//   const INSERT_FLOWERS_TRIGGER = `CREATE TRIGGER flowers_insert AFTER INSERT ON flowers
-//     BEGIN
-//       SELECT CASE
-//         WHEN NEW.comname IN (SELECT flowers.comname FROM flowers)
-//         THEN RAISE (FAIL, 'Warning: Insert into the FLOWERS table.')
-//       END;
-//     END;`;
-//   db.run(INSERT_TRIGGER, function(err, results) {
-//     if (err) {
-//       return res.send(err)
-//     }
-//     else {
-//       return res.send('successfully created trigger for insert on flowers')
-//     }
-//   })
-// })
-
 // Add new sighting to sightings
 app.get('/flowers/add', (req, res) => {
   const {name, person, location, sighted} = req.query;
@@ -111,27 +91,6 @@ app.get('/flowers/add', (req, res) => {
     }
   })
 })
-
-// Create trigger for inserting on sightings
-// app.get('/flowers', (req, res) => {
-//   const {name, person, location, sighted} = req.query;
-//   const INSERT_SIGHTINGS_TRIGGER = `CREATE TRIGGER sightings_insert AFTER INSERT ON sightings
-//     BEGIN
-//       SELECT CASE
-//         WHEN (NEW.person IN (SELECT sightings.person FROM sightings) or NEW.name IN (SELECT sightings.name FROM sightings) 
-//         or NEW.location IN (SELECT sightings.location FROM sightings) or NEW.sighted IN (SELECT sightings.sighted FROM sightings))
-//         THEN RAISE (FAIL, 'Warning: Insert into the SIGHTINGS table.')
-//       END;
-//     END;`;
-//   db.run(INSERT_SIGHTINGS_TRIGGER, function(err, results) {
-//     if (err) {
-//       return res.send(err)
-//     }
-//     else {
-//       return res.send('successfully created trigger for insert on sightings')
-//     }
-//   })
-// })
 
 // Update sightings info
 app.get('/flowers/update', (req, res) => {
@@ -148,25 +107,20 @@ app.get('/flowers/update', (req, res) => {
   })
 })
 
-// Create trigger for updating sightings
-// app.get('/flowers', (req, res) => {
-//   const UPDATE_TRIGGER = `CREATE TRIGGER sightings_update AFTER UPDATE ON sightings
-//     BEGIN
-//       SELECT CASE
-//         WHEN NEW.person IN (SELECT sightings.person FROM sightings)
-//         THEN RAISE (FAIL, 'Warning: Update in the SIGHTINGS table.')
-//       END;
-//     END;
-//     `;
-//   db.run(INSERT_TRIGGER, function(err, results) {
-//     if (err) {
-//       return res.send(err)
-//     }
-//     else {
-//       return res.send('successfully created update trigger for sightings')
-//     }
-//   })
-// })
+// Delete sightings info
+app.get('/flowers/delete', (req, res) => {
+  const {name, person, location, sighted} = req.query;
+  const UPDATE_FLOWERS = `DELETE FROM sightings WHERE name = '${name}' AND person = '${person}' AND location = '${location}'
+    AND sighted = '${sighted}'`;
+  db.run(UPDATE_FLOWERS, function(err, results) {
+    if (err) {
+      return res.send(err)
+    }
+    else {
+      return res.send('successfully updated sightings')
+    }
+  })
+})
 
 app.listen(4000, ()=>{
     console.log("server listening");
