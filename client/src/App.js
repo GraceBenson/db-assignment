@@ -58,15 +58,6 @@ getFlowerpic(flower) {
   return
 }
 
-// renderFlower(flower) {
-//   return(<Label circular as='a' onClick={(e) => this.onclickHandler(e)} image><img src={flowerpics
-//     .filter(pic =>{
-//       return pic.name===flower.name
-//     }).map(pic => {
-//       return pic.img
-//   })} />
-//     {flower.name}</Label>)}
-
   onclickHandler(event)
   {
     var selectedFlower = event.target.value;
@@ -85,6 +76,16 @@ getFlowerpic(flower) {
 //  // return(<div><button>{flower.name}</button></div>)
 //   return(<div><button value = {flower.name} onClick={(e) => this.onclickHandler(e)} >{flower.name}</button></div>)
 // }
+
+renderFlower(flower) {
+  return(<Button className="ui image circular label" value={flower.name} onClick={(e) => this.onclickHandler(e)}><img src={flowerpics
+    .filter(pic =>{
+      return pic.name===flower.name
+    }).map(pic => {
+      return pic.img
+  })} />
+    {flower.name}</Button>)
+}
 
 getSighting(sighting)
 {
