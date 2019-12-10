@@ -57,7 +57,7 @@ app.get('/sightings', (req, res) =>
       return console.error(err.message);
     }
     else{
-    console.log(rows)
+    //console.log(rows)
       return res.json(rows);
     }
   });
@@ -144,7 +144,8 @@ app.get('/flowers/update', (req, res) => {
     WHERE name = '${name}' and person = '${person}' and location = '${location}' and sighted = '${sighted}'`;
   db.run(UPDATE_FLOWERS, function(err, results) {
     if (err) {
-      console.log(name, ' ', person, ' ', location, ' ', sighted, newperson, ' ', newlocation, ' ', newsighted )
+      //console.log(name, ' ', person, ' ', location, ' ', sighted, newperson, ' ', newlocation, ' ', newsighted )
+      console.log(err)
       return res.send(err)
       
     }

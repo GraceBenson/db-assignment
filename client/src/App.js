@@ -8,6 +8,8 @@ class App extends React.Component{
     flowers : [],
     sightings : [],
     selectedFlower: null,
+    query: '',
+    updateQuery: '',
     
     sighting: {
       name: '',
@@ -16,13 +18,14 @@ class App extends React.Component{
       sighted: ''
     },
     updateInfo: {
-      name: '',
       person: '',
       location: '',
       sighted: ''
     },
 
-    flowerClicked: false
+    flowerClicked: false,
+    updateClicked: false
+
   }
 
 
@@ -69,8 +72,7 @@ getFlowerpic(flower) {
       .then(response => this.setState({sightings : response})).catch(err => console.error(err))
 
       this.setState({selectedFlower: selectedFlower})
-
-      this.state.flowerClicked = true;
+     this.setState({flowerClicked :true})
     
   }
 
@@ -78,6 +80,7 @@ getFlowerpic(flower) {
   {
     var query = event.target.id
     console.log(query)
+    this.setState({updateClicked :true, query :query})
 
   }
 
@@ -131,12 +134,30 @@ renderSighting()
   </div>)
   }
 }
+fetchSightings()
+{
+  fetch(`http://localhost:4000/sightings?comname=${this.state.selectedFlower}`).then(response => response.json())
+  .then(response => this.setState({sightings : response})).catch(err => console.error(err))
+
+}
+
+
+
+updateSightings()
+{
+  
+ 
+  fetch(`http://localhost:4000/flowers/update?${this.state.query}&newperson=${this.state.updateInfo.person}&newlocation=${this.state.updateInfo.location}&newsighted=${this.state.updateInfo.sighted}}`).then(this.fetchSightings())
+ 
+}
+
 
 
 render()
 {
   //console.log(this.state.flowers)
   const { sighting } = this.state
+  const { updateInfo} = this.state
   return(
     <div className = "App">
       <Container>
@@ -145,7 +166,7 @@ render()
       <Divider />
       <Container>
         {this.renderSighting()}
-        <h3>Select a flower to view infromation</h3>
+        <h3>Select a flower to view information</h3>
       </Container>
       <Table celled>
         <Table.Row>
@@ -168,18 +189,18 @@ render()
           <Table.Cell>
             <h3>Update sighting information</h3>
             <Form>
-            {/* <Form.Group widths="equal">
-              <Form.Field control={Input} value={sighting.name} label='Common Name' placeholder="Common Name" onChange={e => this.setState({ sighting: { ...sighting, name: e.target.value } })} />
-              <Form.Field control={Input} value={sighting.person} label='Person' placeholder="Person" onChange={e => this.setState({ sighting: { ...sighting, person: e.target.value } })} />
+            <Form.Group widths="equal">
+              
+              <Form.Field control={Input} value = {updateInfo.person} label='Person' placeholder="Updated Person" onChange={e => this.setState({ updateInfo: {...updateInfo,  person: e.target.value } })} />
               </Form.Group>
               <Form.Group widths="equal">
-              <Form.Field control={Input} value={sighting.location} label='Location' placeholder="Location" onChange={e => this.setState({ sighting: { ...sighting, location: e.target.value } })} />
-              <Form.Field control={Input} value={sighting.sighted} label='Sighted' placeholder="Sighted" onChange={e => this.setState({ sighting: { ...sighting, sighted: e.target.value } })} />
+              <Form.Field control={Input} value = {updateInfo.location} label='Location' placeholder="Updated Location" onChange={e => this.setState({ updateInfo: {...updateInfo,  location: e.target.value } })} />
+              <Form.Field control={Input} value = {updateInfo.sighted} label='Sighted' placeholder="Updated Sighted date" onChange={e => this.setState({ updateInfo: {...updateInfo,  sighted: e.target.value } })} />
               </Form.Group>
               <Button
                 className="ui green button"
-                onClick={this.addFlowers}>Add</Button> */}
-            </Form>
+                onClick={this.updateSightings()}>Save and click update</Button> 
+   </Form>
           </Table.Cell>
         </Table.Row>
       </Table>
