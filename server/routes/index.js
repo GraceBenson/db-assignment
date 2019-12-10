@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require ('cors');
 const sqlite3 = require('sqlite3').verbose();
-const router = express.Router();
+//const router = express.Router();
 
 const testquery = `SELECT comname as name
 FROM flowers`
@@ -27,11 +27,23 @@ app.get('/', (req, res) =>{
 app.get('/flowers', (req, res)=> {
   db.all(`SELECT comname as name FROM flowers`, [], (err, row) => {
     if (err) {
-      res.send(err);
-    return;
+      return res.send(err);
     }
     else {
       return res.json(row)
+    }
+  })
+})
+
+// Create index for sightings
+// TODO: see if it works
+app.get('/flowers', (req, res)=> {
+  db.all(`CREATE INDEX sighings_id ON sightings`, (err, row) => {
+    if (err) {
+      return res.send(err);
+    }
+    else {
+      return res.send('Successfully created index on sightings')
     }
   })
 })
@@ -47,7 +59,10 @@ app.get('/flowers/add', (req, res) => {
       return res.send('successfully added flower')
     }
   })
+})
 
+app.get('/flowers/add', (req, res) => {
+  const {name, person, location, sighted} = req.query;
   const INSERT_SIGHTINGS = `INSERT INTO sightings(name, person, location, sighted) VALUES(
     '${name}', '${person}', '${location}', '${sighted}')`;
   db.run(INSERT_SIGHTINGS, function(err, results) {
@@ -62,8 +77,8 @@ app.get('/flowers/add', (req, res) => {
 
 app.get('/flowers/update', (req, res) => {
   const {name, person, location, sighted} = req.query;
-  const UPDATE_FLOWERS = `UPDATE sightings SET name = '${name}', person = '${person}',
-    location = '${location}', sighted = '${sighted}'`;
+  const UPDATE_FLOWERS = `UPDATE sightings SET person = '${person}', location = '${location}',
+    sighted = '${sighted}' WHERE name = '${name}'`;
   db.run(UPDATE_FLOWERS, function(err, results) {
     if (err) {
       return res.send(err)
@@ -74,8 +89,20 @@ app.get('/flowers/update', (req, res) => {
   })
 })
 
+app.get('/flowers/index', (req, res) => {
+  const INSERT_SIGHTINGS = `INSERT INTO sightings(name, person, location, sighted) VALUES(
+    '${name}', '${person}', '${location}', '${sighted}')`;
+  db.run(INSERT_SIGHTINGS, function(err, results) {
+    if (err) {
+      return res.send(err)
+    }
+    else {
+      return res.send('successfully added sighting')
+    }
+  })
+})
 app.listen(4000, ()=>{
     console.log("server listening");
 })
 
-module.exports = router;
+// module.exports = router;
