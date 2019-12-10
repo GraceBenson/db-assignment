@@ -19,6 +19,7 @@
   "dependencies": {
     "connect": "^3.7.0",
     "cors": "^2.8.5",
+    "express": "^4.17.1",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
     "sqlite3": "^4.1.1"

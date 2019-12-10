@@ -47,13 +47,15 @@ addFlowers = _ =>{
   .catch(err => console.error(err))
 }
 
-updateFlowers = _ =>{
-  const { sighting } = this.state
-  fetch(`http://localhost:4000/flowers/update?name=${sighting.name}&person=${sighting.person}&location=${sighting.location}&sighted=${sighting.sighted}`)
-  .then(response => response.json())
-  .then(this.getFlowers)
-  .catch(err => console.error(err))
-}
+// updateFlowers = _ =>{
+//   const { sighting } = this.state
+//   fetch(`http://localhost:4000/flowers/update?name=${sighting.name}&person=${sighting.person}&location=${sighting.location}&sighted=${sighting.sighted}`)
+//   .then(response => response.json())
+//   .then(this.getFlowers)
+//   .catch(err => console.error(err))
+// }
+
+
 
 getFlowerpic(flower) {
   return
@@ -87,6 +89,13 @@ renderFlower(flower) {
     
   }
 
+  onclickHandlerUpdate(event)
+  {
+    var query = event.target.id
+    console.log(query)
+
+  }
+
 
 
 
@@ -94,9 +103,10 @@ renderFlower(flower) {
 
 getSighting(sighting)
 {
+  var test = `name=${sighting.NAME}&person=${sighting.PERSON}&location=${sighting.LOCATION}&sighted=${sighting.SIGHTED}`
 return(
   <div>
-  
+  <button id = {test} onClick={(e)=>this.onclickHandlerUpdate(e)}>update</button>
     <p>Flower name: {sighting.NAME}</p>
     <p>Person: {sighting.PERSON}</p>
     <p>Location: {sighting.LOCATION}</p>

@@ -57,7 +57,7 @@ app.get('/sightings', (req, res) =>
       return console.error(err.message);
     }
     else{
-    //console.log(rows)
+    console.log(rows)
       return res.json(rows);
     }
   });
@@ -134,19 +134,31 @@ app.get('/flowers/add', (req, res) => {
 // })
 
 // Update sightings info
+
+//?name=Yellow-and-white monkeyflower&person=Helen&location=Burton Mill&sighted=2006-06-17
+//?name=Yellow-and-white monkeyflower&person=Helen&location=Burton Mill&sighted=2006-06-17&newperson=Sneha&newlocation=PAris&newsighted=nonsense1534
 app.get('/flowers/update', (req, res) => {
-  const {name, person, location, sighted} = req.query;
-  const UPDATE_FLOWERS = `UPDATE sightings SET person = '${person}', location = '${location}',
-    sighted = '${sighted}' WHERE name = '${name}'`;
+  const {name, person, location, sighted, newperson, newlocation, newsighted} = req.query;
+  const UPDATE_FLOWERS = `UPDATE sightings SET person = '${newperson}', location = '${newlocation}',
+    sighted = '${newsighted}' 
+    WHERE name = '${name}' and person = '${person}' and location = '${location}' and sighted = '${sighted}'`;
   db.run(UPDATE_FLOWERS, function(err, results) {
     if (err) {
+      console.log(name, ' ', person, ' ', location, ' ', sighted, newperson, ' ', newlocation, ' ', newsighted )
       return res.send(err)
+      
     }
     else {
-      return res.send('successfully updated sightings')
+      console.log(name, ' ', person, ' ', location, ' ', sighted, newperson, ' ', newlocation, ' ', newsighted )
+      return res.send('successfull updated sightings')
+
+     
+    
     }
   })
 })
+
+
 
 // Create trigger for updating sightings
 // app.get('/flowers', (req, res) => {
