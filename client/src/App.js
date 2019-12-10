@@ -63,10 +63,10 @@ addFlowers = _ =>{
 
 
 
-deleteSighting(sighting){
-  fetch(`http://localhost:4000/flowers/delete?name=${sighting.name}&person=${sighting.person}&location=${sighting.location}&sighted=${sighting.sighted}`)
+deleteSighting(event){
+  fetch(`http://localhost:4000/flowers/delete?${event.target.id}`)
   .catch(err => console.error(err))
-  fetch(`http://localhost:4000/sightings?comname=${sighting.name}`).then(response => response.json())
+  fetch(`http://localhost:4000/sightings?comname=${this.state.selectedFlower}`).then(response => response.json())
   .then(response => this.setState({sightings : response})).catch(err => console.error(err))
 }
 
@@ -120,7 +120,7 @@ return(
       <p>On {sighting.SIGHTED}</p>
     </Card.Content>
     <Card.Content extra>
-      <Button size="mini" color="red" onClick={()=>this.deleteSighting(sighting)}>Remove</Button>
+      <Button size="mini" id = {test} color="red" onClick={(event)=>this.deleteSighting(event)}>Remove</Button>
       <Button size="mini" id = {test} onClick={(e)=>this.onclickHandlerUpdate(e)}>Update</Button>
     </Card.Content>
   </Card>
