@@ -54,7 +54,7 @@ getFlowerpic(flower) {
 }
 
 renderFlower(flower) {
-  return(<Label circular as='a' size="medium" image><img src={flowerpics
+  return(<Label circular as='a' image><img src={flowerpics
     .filter(pic =>{
       return pic.name===flower.name
     }).map(pic => {

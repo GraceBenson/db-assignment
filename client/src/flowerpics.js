@@ -158,7 +158,7 @@ export default [
     },
     {
         name: 'Pale owls clover',
-        img: lupine
+        img: dovesfoot
     },
     {
         name: 'Primrose monkeyflower',
@@ -210,7 +210,7 @@ export default [
     },
     {
         name: 'Tinkers penny',
-        img: sheltonsviolet
+        img: butteregg
     },
     {
         name: 'Torreys lomatium',
