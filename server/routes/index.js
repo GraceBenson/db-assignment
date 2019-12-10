@@ -37,16 +37,20 @@ app.get('/flowers', (req, res)=> {
 })
 
 //get top ten sightings for a flower
-app.get('/flowers/sightings', (req, res) =>
+app.get('/sightings', (req, res) =>
 {
   const {comname} = req.query;
   db.all('SELECT * FROM sightings WHERE name = ? LIMIT 10', [comname], (err, rows) => {
     if (err) {
       return console.error(err.message);
     }
-    console.log(rows)
-    res.json(rows);
-    return;   
+    else{
+      console.log(rows)
+    return res.json(rows);
+  
+
+    }
+    
    
   });
  
