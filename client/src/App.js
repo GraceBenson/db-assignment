@@ -120,11 +120,11 @@ return(
       <p>On {sighting.SIGHTED}</p>
     </Card.Content>
     <Card.Content extra>
-      <Button size="mini" onClick={()=>this.deleteSighting(sighting)}>Remove</Button>
+      <Button size="mini" color="red" onClick={()=>this.deleteSighting(sighting)}>Remove</Button>
+      <Button size="mini" id = {test} onClick={(e)=>this.onclickHandlerUpdate(e)}>Update</Button>
     </Card.Content>
-    <button id = {test} onClick={(e)=>this.onclickHandlerUpdate(e)}>update</button>
   </Card>
-
+   
   )
 }
 
@@ -159,7 +159,7 @@ updateSightings()
 {
   
  
-  fetch(`http://localhost:4000/flowers/update?${this.state.query}&newperson=${this.state.updateInfo.person}&newlocation=${this.state.updateInfo.location}&newsighted=${this.state.updateInfo.sighted}}`).then(this.fetchSightings())
+  fetch(`http://localhost:4000/flowers/update?${this.state.query}&newperson=${this.state.updateInfo.person}&newlocation=${this.state.updateInfo.location}&newsighted=${this.state.updateInfo.sighted}`).then(this.fetchSightings())
  
 }
 
