@@ -11,7 +11,9 @@ class App extends React.Component{
       person: '',
       location: '',
       sighted: ''
-    }
+    },
+
+    flowerClicked: false
   }
 
 
@@ -27,12 +29,6 @@ getFlowers = _ =>{
   .catch(err => console.error(err))
 }
 
-/*onclickHandler(selectedFlower)
-{
-  getSightings =_ =>{
-    fetch('/flowers/sightings?comname=${selectedFlower}')
-  }  
-}*/
 
  //return(<div><button onclick = {onclickHandler(flower.name)}>{flower.name}</button></div>)
 addFlowers = _ =>{
@@ -50,20 +46,58 @@ updateFlowers = _ =>{
   .catch(err => console.error(err))
 }
 
+  onclickHandler(event)
+  {
+    var selectedFlower = event.target.value;
+    console.log(selectedFlower)
+      fetch(`http://localhost:4000/sightings?comname=${selectedFlower}`).then(response => response.json())
+      .then(response => this.setState({sightings : response})).catch(err => console.error(err))
+
+      this.state.flowerClicked = true;
+    
+  }
+
+
+
+
 renderFlower(flower) {
-  return(<div><button>{flower.name}</button></div>)
+ // return(<div><button>{flower.name}</button></div>)
+  return(<div><button value = {flower.name} onClick={(e) => this.onclickHandler(e)} >{flower.name}</button></div>)
+}
+
+getSighting(sighting)
+{
+return(
+  <div>
+    <p>Flower name: {sighting.NAME}</p>
+    <p>Person: {sighting.PERSON}</p>
+    <p>Location: {sighting.LOCATION}</p>
+    <p>Sighted on: {sighting.SIGHTED}</p>   
+    <p>--------------------------------- </p>
+  </div>
+
+  )
+}
+
+renderSighting()
+{
+  if(this.state.flowerClicked === true)
+  {
+  return(<div>{this.state.sightings.map(sighting=>this.getSighting(sighting))}</div>)
+  }
 }
 
 
 render()
 {
-  console.log(this.state.flowers)
+  //console.log(this.state.flowers)
   const { sighting } = this.state
   return(
     <div className = "App">
       {this.state.flowers.map(flower=>this.renderFlower(flower))}
-
       <div>
+
+  <div> {this.renderSighting()}</div>
         <input value={sighting.name} placeholder="Common Name" onChange={e => this.setState({ sighting: { ...sighting, name: e.target.value } })} />
         <input value={sighting.person} placeholder="Person" onChange={e => this.setState({ sighting: { ...sighting, person: e.target.value } })} />
         <input value={sighting.location} placeholder="Location" onChange={e => this.setState({ sighting: { ...sighting, location: e.target.value } })} />
