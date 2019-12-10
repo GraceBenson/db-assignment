@@ -53,15 +53,6 @@ addFlowers = _ =>{
   .catch(err => console.error(err))
 }
 
-// updateFlowers = _ =>{
-//   const { sighting } = this.state
-//   fetch(`http://localhost:4000/flowers/update?name=${sighting.name}&person=${sighting.person}&location=${sighting.location}&sighted=${sighting.sighted}`)
-//   .then(response => response.json())
-//   .then(this.getFlowers)
-//   .catch(err => console.error(err))
-// }
-
-
 
 deleteSighting(sighting){
   fetch(`http://localhost:4000/flowers/delete?name=${sighting.name}&person=${sighting.person}&location=${sighting.location}&sighted=${sighting.sighted}`)
