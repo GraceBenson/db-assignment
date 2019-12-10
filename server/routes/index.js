@@ -48,6 +48,7 @@ app.get('/flowers', (req, res)=> {
   })
 })
 
+// Add a new flower to flowers
 app.get('/flowers/add', (req, res) => {
   const {name, person, location, sighted} = req.query;
   const INSERT_FLOWERS = `INSERT INTO flowers(comname) VALUES('${name}')`;
@@ -61,6 +62,28 @@ app.get('/flowers/add', (req, res) => {
   })
 })
 
+// Create trigger for insert on flowers
+app.get('/flowers', (req, res) => {
+  const {name, person, location, sighted} = req.query;
+  const INSERT_FLOWERS_TRIGGER = `CREATE TRIGGER flowers_insert BEFORE INSERT ON flowers
+    BEGIN
+      SELECT CASE
+        WHEN NEW.comname IN (SELECT flowers.comname FROM flowers)
+        THEN RAISE (FAIL, 'Warning: Insert into the FLOWERS table.')
+      END;
+    END;
+    `;
+  db.run(INSERT_TRIGGER, function(err, results) {
+    if (err) {
+      return res.send(err)
+    }
+    else {
+      return res.send('successfully created trigger for insert on flowers')
+    }
+  })
+})
+
+// Add new sighting to sightings
 app.get('/flowers/add', (req, res) => {
   const {name, person, location, sighted} = req.query;
   const INSERT_SIGHTINGS = `INSERT INTO sightings(name, person, location, sighted) VALUES(
@@ -75,7 +98,29 @@ app.get('/flowers/add', (req, res) => {
   })
 })
 
-app.get('/flowers/update', (req, res) => {
+// Create trigger for inserting on sightings
+app.get('/flowers', (req, res) => {
+  const {name, person, location, sighted} = req.query;
+  const INSERT_SIGHTINGS_TRIGGER = `CREATE TRIGGER sightings_insert BEFORE INSERT ON sightings
+    BEGIN
+      SELECT CASE
+        WHEN NEW.person IN (SELECT sightings.person FROM sightings)
+        THEN RAISE (FAIL, 'Warning: Insert into the SIGHTINGS table.')
+      END;
+    END;
+    `;
+  db.run(INSERT_SIGHTINGS_TRIGGER, function(err, results) {
+    if (err) {
+      return res.send(err)
+    }
+    else {
+      return res.send('successfully created trigger for insert on sightings')
+    }
+  })
+})
+
+// Update sightings info
+app.get('/flowers', (req, res) => {
   const {name, person, location, sighted} = req.query;
   const UPDATE_FLOWERS = `UPDATE sightings SET person = '${person}', location = '${location}',
     sighted = '${sighted}' WHERE name = '${name}'`;
@@ -84,23 +129,31 @@ app.get('/flowers/update', (req, res) => {
       return res.send(err)
     }
     else {
-      return res.send('successfully updated flower')
+      return res.send('successfully updated sightings')
     }
   })
 })
 
-app.get('/flowers/index', (req, res) => {
-  const INSERT_SIGHTINGS = `INSERT INTO sightings(name, person, location, sighted) VALUES(
-    '${name}', '${person}', '${location}', '${sighted}')`;
-  db.run(INSERT_SIGHTINGS, function(err, results) {
+// Create trigger for updating sightings
+app.get('/flowers', (req, res) => {
+  const UPDATE_TRIGGER = `CREATE TRIGGER sightings_update AFTER INSERT ON sightings
+    BEGIN
+      SELECT CASE
+        WHEN NEW.person IN (SELECT sightings.person FROM sightings)
+        THEN RAISE (FAIL, 'Warning: Update in the SIGHTINGS table.')
+      END;
+    END;
+    `;
+  db.run(INSERT_TRIGGER, function(err, results) {
     if (err) {
       return res.send(err)
     }
     else {
-      return res.send('successfully added sighting')
+      return res.send('successfully created update trigger for sightings')
     }
   })
 })
+
 app.listen(4000, ()=>{
     console.log("server listening");
 })
