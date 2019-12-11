@@ -163,6 +163,7 @@ render()
   const { updateInfo} = this.state
   return(
     <div className = "App">
+      <Container><h1 align="left">Southern Sierra Wildﬂower Club (SSWC) Database</h1></Container><hr />
       <Container>
         {this.state.flowers.map(flower=>this.renderFlower(flower))}
       </Container>
