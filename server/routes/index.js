@@ -136,6 +136,7 @@ app.get('/flowers/delete', (req, res) => {
   const {name, person, location, sighted} = req.query;
   const UPDATE_FLOWERS = `DELETE FROM sightings WHERE name = '${name}' AND person = '${person}' AND location = '${location}'
     AND sighted = '${sighted}'`;
+  db.run('BEGIN')
   db.run(UPDATE_FLOWERS, function(err, results) {
     if (err) {
       return res.send(err)
@@ -144,6 +145,7 @@ app.get('/flowers/delete', (req, res) => {
       return res.send('successfully updated sightings')
     }
   })
+  db.run('COMMIT')
 })
 
 app.listen(4000, ()=>{
