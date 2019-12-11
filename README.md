@@ -14,5 +14,6 @@ The <b>query</b>, <b>update</b>, and <b>insert</b> tasks can be found in the dir
 - Pictures of ﬂowers are displayed
 
 <b>Back-end:</b>
-- Create an index for each attribute in table SIGHTINGS
-- Create a trigger to log insertions, updates, and deletions
+- Created an index for each attribute in table SIGHTINGS
+- Created triggers to log insertions, updates, and deletions
+- User initiated input for <b>delete</b> done as a transaction
